@@ -1,16 +1,16 @@
 let db;
-const request = indexedDB.open("transcation_hunt", 1);
+const request = indexedDB.open("budget", 1);
 
 request.onupgradeneeded = function (event) {
   const db = event.target.result;
-  db.createObjectStore("new_transaction", { autoIncrement: true });
+  db.createObjectStore("new_tran", { autoIncrement: true });
 };
 
 request.onsuccess = function (event) {
   db = event.target.result;
 
   if (navigator.onLine) {
-    uploadTransaction();
+    uploadTran();
   }
 };
 
@@ -18,20 +18,22 @@ request.onerror = function (event) {
   console.log(event.target.errorCode);
 };
 
-function saveRecord(record) {
-  const transaction = db.transaction(["new_transaction"], "readwrite");
+function saveRecord(tran) {
+  const transaction = db.transaction(["new_tran"], "readwrite");
 
-  const transactionObjectStore = transaction.objectStore("new_transaction");
+  const tranObjectStore = transaction.objectStore("new_tran");
 
-  transactionObjectStore.add(record);
-}
+  tranObjectStore.add(tran);
 
-function uploadTransaction() {
-  const transaction = db.transaction(["new_transaction"], "readwrite");
+  return transaction.complete;
+};
 
-  const transactionObjectStore = transaction.objectStore("new_transaction");
+function uploadTran() {
+  const transaction = db.transaction(["new_tran"], "readwrite");
 
-  const getAll = transactionObjectStore.getAll();
+  const tranObjectStore = transaction.objectStore("new_tran");
+
+  const getAll = tranObjectStore.getAll();
 
   getAll.onsuccess = function () {
     if (getAll.result.length > 0) {
@@ -48,12 +50,11 @@ function uploadTransaction() {
           if (serverResponse.message) {
             throw new Error(serverResponse);
           }
-          const transaction = db.transaction(["new_transaction"], "readwrite");
-          const transactionObjectStore =
-            transaction.objectStore("new_transaction");
-          transactionObjectStore.clear();
+          const transaction = db.transaction(["new_tran"], "readwrite");
+          const tranObjectStore = transaction.objectStore("new_tran");
+          tranObjectStore.clear();
 
-          alert("All saved transactions has been submitted!");
+          alert("All saved transactions have been submitted!");
         })
         .catch((err) => {
           console.log(err);
@@ -62,4 +63,4 @@ function uploadTransaction() {
   };
 }
 
-window.addEventListener("online", uploadTransaction);
+window.addEventListener("online", uploadTran);

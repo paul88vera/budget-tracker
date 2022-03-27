@@ -4,8 +4,6 @@ const DATA_CACHE_NAME = "data-cache-transaction";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/manifest.json",
-  "/service-worker.js",
   "/js/idb.js",
   "/js/index.js",
   "/css/styles.css",
