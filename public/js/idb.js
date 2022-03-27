@@ -10,7 +10,7 @@ request.onsuccess = function (event) {
   db = event.target.result;
 
   if (navigator.onLine) {
-    uploadtransaction();
+    uploadTransaction();
   }
 };
 
@@ -26,7 +26,7 @@ function saveRecord(record) {
   transactionObjectStore.add(record);
 }
 
-function uploadtransaction() {
+function uploadTransaction() {
   const transaction = db.transaction(["new_transaction"], "readwrite");
 
   const transactionObjectStore = transaction.objectStore("new_transaction");
@@ -49,10 +49,11 @@ function uploadtransaction() {
             throw new Error(serverResponse);
           }
           const transaction = db.transaction(["new_transaction"], "readwrite");
-          const transactionObjectStore = transaction.objectStore("new_transaction");
+          const transactionObjectStore =
+            transaction.objectStore("new_transaction");
           transactionObjectStore.clear();
 
-          alert("All saved transaction has been submitted!");
+          alert("All saved transactions has been submitted!");
         })
         .catch((err) => {
           console.log(err);
@@ -61,4 +62,4 @@ function uploadtransaction() {
   };
 }
 
-window.addEventListener("online", uploadPizza);
+window.addEventListener("online", uploadTransaction);

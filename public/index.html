@@ -10,7 +10,7 @@
       href="icons/icon-192x192.png"
       type="image/x-icon"
     />
-
+    <link rel="manifest" href="/manifest.json" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -59,10 +59,10 @@
       (function () {
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker
-            .register("./service-worker.js")
-            .then(() => console.log("Service Worker registered successfully."))
+            .register("/service-worker.js")
+            .then(() => console.log("ServiceWorker registered successfully."))
             .catch((error) =>
-              console.log("Service Worker registration failed:", error)
+              console.log("ServiceWorker registration failed:", error)
             );
         }
       })();
